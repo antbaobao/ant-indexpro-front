@@ -1,0 +1,238 @@
+<template>
+    <div class="widget">
+        <div class="widget__first">
+            <div class="widget__first__left">
+                <p class="widget__first__left__title">{{$t("widget.item1.title")}}</p>
+                <p>{{$t("widget.item1.p1")}}</p>
+                <p>{{$t("widget.item1.p2")}}</p>
+                <p>{{$t("widget.item1.p3")}}</p>
+                <p class="widget__first__demo">
+                    {{text}}
+                </p>
+            </div>
+            <div class="widget__first__right">
+                <!--<el-card class="widget__first__right__box-card">-->
+                    <!--<div class="widget__first__right__box-card__info">-->
+                        <!--<div>-->
+                            <!--<div class="widget__first__right__title">GCI Index</div>-->
+                            <!--<div class="widget__first__right__value">4352.18</div>-->
+                            <!--<div class="widget__first__right__change">Change (24H):+8.27(9%)</div>-->
+                        <!--</div>-->
+                        <!--<peity :type="'line'"-->
+                               <!--:options="{ width: 150, height:50, stroke: '#4d89f9' }"-->
+                               <!--:data="[34,44,44,566,99,1000].toString()"></peity>-->
+                    <!--</div>-->
+                <!--</el-card>-->
+                <el-card class="widget__second__right__box-card">
+                    <p class="widget__second__right__box-card__item"><span class="widget__second__right__title">EX10 Index</span><span class="widget__second__right__title">4,352.18</span></p>
+                    <p class="widget__second__right__box-card__item"><span>{{$t("widget.item4.market_cap")}}</span><span>$ 154.23B</span></p>
+                    <p class="widget__second__right__box-card__item"><span>{{$t("widget.item4.volume")}}</span><span>$ 154.23B</span></p>
+                    <peity :type="'line'"
+                           :options="{ width: 600, height:50, stroke: '#4d89f9' }"
+                           :data="[1000,233,11,2333,123,34,44,44,566,99,1000].toString()"></peity>
+                </el-card>
+            </div>
+        </div>
+        <div class="widget__second">
+           <div class="widget__second__left">
+               <Create
+                   @on-change="onCreateChange"
+               />
+            </div>
+            <div class="widget__second__right" ref="widget__second__right">
+                <!--<el-card class="widget__second__right__box-card">-->
+                    <!--<p class="widget__second__right__box-card__item"><span class="widget__second__right__title">EX10 Index</span><span class="widget__second__right__title">4,352.18</span></p>-->
+                    <!--<p class="widget__second__right__box-card__item"><span>{{$t("widget.item4.market_cap")}}</span><span>$ 154.23B</span></p>-->
+                    <!--<p class="widget__second__right__box-card__item"><span>{{$t("widget.item4.volume")}}</span><span>$ 154.23B</span></p>-->
+                    <!--<peity :type="'line'"-->
+                           <!--:options="{ width: 150, height:50, stroke: '#4d89f9' }"-->
+                           <!--:data="[34,44,44,566,99,1000].toString()"></peity>-->
+                <!--</el-card>-->
+                <iframe
+                    allowtransparency="true"
+                    scrolling='no'
+                    frameborder='0'
+                    name="widget"
+                    height='160'
+                    :width='width'
+                    :src="`${src}/widget/index?theme=${theme}&index=${index}&currency=${preferredCurrency}`"
+                ></iframe>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import peity from 'vue-peity'
+import Create from './Create'
+import config from '@/config'
+export default {
+  components: {
+    peity,
+    Create
+  },
+  name: 'widget',
+  data () {
+    return {
+      text: "<iframe scrolling='no' class='widget'  frameborder='false' height='160' width='290' src='http://indexpro.io/widget/index?theme=white&index=EX08&currency=USD'></iframe>",
+      width: 290,
+      index: 'EX08',
+      preferredCurrency: 'USD',
+      theme: 'white'
+    }
+  },
+  computed: {
+    src () {
+      const baseDomain = process.env.NODE_ENV === 'development' ? config.baseDomain.dev : config.baseDomain.pro
+      console.log(baseDomain)
+      return baseDomain
+    }
+  },
+  methods: {
+    onCreateChange (iframe) {
+      this.$refs.widget__second__right.replaceChild(iframe, this.$el.getElementsByTagName('iframe')[0])
+    }
+  }
+}
+</script>
+
+<style>
+    .widget {
+        width:1200px;
+        margin:0 auto;
+        margin-top:40px;
+        /*font-weight:bolder;*/
+        font-size: 14px;
+        color: #2c3e50
+    }
+    .widget__first,.widget__second{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        height: 400px;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+        align-items: center;
+        border-radius: 5px;
+        background: white;
+        transition: box-shadow 0.5s;
+    }
+    .widget__first:hover{
+        box-shadow: 0 4px 5px rgba(0, 0, 0, 0.05);
+    }
+    .widget__second:hover{
+        box-shadow: 0 4px 12px 0 rgba(0,0,0,.1);
+    }
+    .widget__first__left,.widget__second__left{
+        flex: 1;
+        padding: 20px;
+        height: 100%;
+        background: white;
+        border-radius: 5px;
+    }
+    .widget__first__left{
+        text-align: justify;
+    }
+    .widget__first__right,.widget__second__right{
+        background: #eee;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+
+    }
+    .widget__second{
+        margin-top: 30px;
+    }
+    .widget__first__right__box-card, .widget__second__right__box-card{
+        width: 500px;
+    }
+    .widget__first__demo{
+        border: 1px solid #eee;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: left;
+    }
+    .widget__second__right__box-card__item{
+        display: flex;
+        border-bottom: 1px solid #bfbfbf;
+        justify-content: space-between;
+    }
+    .widget__first__right__box-card__info{
+        display: flex;
+        flex-direction: row;
+    }
+    .widget__first__left__title{
+        font-size: 20px;
+        font-weight: bolder
+    }
+    .widget__first__right__title,.widget__second__right__title,.widget__first__right__value{
+        font-size: 24px;
+        text-align: left;
+        padding: 5px;
+        font-weight: bolder
+    }
+    .widget__first__right__change{
+        display: inline-block;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: #eee;
+        padding: 5px;
+        border-radius: 5px;
+
+    }
+
+    @media screen and (max-width: 1200px) {
+        .widget {
+            width: 100%;
+            height: auto;
+        }
+         .widget__first__right__box-card{
+             margin: 0 20px;
+        }
+        .widget__first,.widget__second{
+            flex-direction: column;
+            height: auto;
+            width: 80%;
+            margin: 0 auto;
+        }
+        .widget__first__right,.widget__first__left{
+            height: 350px;
+        }
+
+        .widget__first__left,.widget__second__left{
+            height: 350px;
+        }
+        .widget__first__right{
+            padding: 20px 0;
+            height: 200px;
+            width: 100%;
+            height: 350px;
+
+        }
+        .widget__second__right{
+            padding: 20px 0;
+            height: 200px;
+            width: 100%;
+            height: 350px;
+
+        }
+    }
+    iframe{
+        border-radius: 5px;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    }
+    @media screen and (max-width: 760px) {
+        .widget{
+            margin-top: 10px;
+        }
+        .widget__first,.widget__second{
+            width: 100%;
+            margin: 0 auto;
+        }
+        .widget__first__right,.widget__first__left{
+            height: auto;
+        }
+        .widget__second__left,.widget__second__right{
+            height: auto;
+        }
+    }
+</style>

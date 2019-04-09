@@ -1,0 +1,163 @@
+<template>
+    <div class="widget-create">
+        <p class="widget-create__title">
+            {{$t("widget.item3.title")}}
+        </p>
+        <div class="widget-create__select">
+            <div>
+                <span>
+                    {{$t("widget.item3.index")}}
+                </span>
+                <el-select v-model="index">
+                    <el-option
+                        v-for="item in indexs"
+                        :key="item"
+                        :label="item"
+                        :value="item">
+                    </el-option>
+                </el-select>
+            </div>
+            <div>
+                <span>
+                    {{$t("widget.item3.preferred_currency")}}
+                </span>
+                <el-select v-model="preferredCurrency" placeholder="">
+                    <el-option
+                        v-for="item in ['USD']"
+                        :key="item"
+                        :label="item"
+                        :value="item">
+                    </el-option>
+                </el-select>
+            </div>
+        </div>
+       <div class="widget-create__select">
+           <div>
+               <span>
+               {{$t("widget.item3.width")}}
+               </span>
+               <el-select v-model="width" placeholder="">
+                   <el-option
+                       v-for="item in [290,350]"
+                       :key="item"
+                       :label="item"
+                       :value="item">
+                   </el-option>
+               </el-select>
+           </div>
+           <div>
+               <span>
+                   {{$t("widget.item3.theme")}}
+               </span>
+                   <el-select v-model="theme" placeholder="">
+                       <el-option
+                           v-for="item in ['white','black']"
+                           :key="item"
+                           :label="item"
+                           :value="item">
+                       </el-option>
+                   </el-select>
+           </div>
+       </div>
+        <div class="widget-create__create-btn">
+            <el-button @click="createWidget">{{$t("widget.item3.create")}}</el-button>
+        </div>
+        <p class="widget-create__create-demo">
+            {{text}}
+            <!--<iframe scrolling='no' frameborder='false' height='160' width='290' src='https://index-am.coinbase.com/widget/index'></iframe>-->
+        </p>
+    </div>
+</template>
+<script>
+import config from '@/config'
+export default {
+  data () {
+    return {
+      width: 290,
+      index: 'EX08',
+      preferredCurrency: 'USD',
+      theme: 'white',
+      text: "<iframe scrolling='no' frameborder='false' height='160' width='290' src='http://indexpro.io/widget/index?theme=white&index=EX08&currency=USD'></iframe>"
+    }
+  },
+  computed: {
+    isLoading () {
+      return this.$store.state.proindex.getProindexLoading
+    },
+    indexs () {
+      const data = this.$store.state.proindex.proindex.filter((item) => {
+        return !item.pairs
+      }).map((item) => {
+        return item.index_name
+      })
+      return data
+    }
+  },
+  methods: {
+    createWidget () {
+      const iframe = document.createElement('iframe')
+      const baseDomain = process.env.NODE_ENV === 'development' ? config.baseDomain.dev : config.baseDomain.pro
+      iframe.src = `${baseDomain}/widget/index?theme=${this.theme}&index=${this.index}&currency=${this.preferredCurrency}`
+      iframe.width = this.width
+      iframe.scrolling = 'no'
+      iframe.frameBorder = '0'
+      iframe.height = '160'
+      iframe.allowtransparency = true
+      this.text = `<iframe scrolling='no' frameborder='false' height='160' width='290' src="${iframe.src}"></iframe>`
+      this.$emit('on-change', iframe)
+    }
+  }
+}
+</script>
+
+<style>
+.widget-create{
+    /*padding: 5px;*/
+}
+.widget-create__title{
+    /*padding: 10px 0;*/
+    text-align: left;
+    font-size: 24px;
+    font-weight: bolder;
+}
+.widget-create__select{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.widget-create__create-btn{
+    display: flex;
+    justify-content: flex-start;
+    margin: 20px 0;
+}
+.widget-create__create-demo{
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: left;
+}
+@media screen and (max-width: 1200px) {
+    widget-create {
+        padding: 0;
+    }
+}
+@media screen and (max-width: 760px) {
+    .widget-create__select{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .widget-create__select div{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 5px 0;
+    }
+    .widget-create__select div span{
+        width: 140px;
+        text-align: left;
+    }
+}
+</style>

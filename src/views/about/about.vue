@@ -1,0 +1,116 @@
+<template>
+  <div class="about">
+    <div class="banner">
+    </div>
+    <div class="title">{{$t("about_us.about_us")}}</div>
+    <div class="ctn">
+      <p>
+        {{$t("about_us.section1")}}
+      </p>
+      <p>
+        {{$t("about_us.section2")}}
+      </p>
+    </div>
+
+    <div class="title">{{$t("about_us.company_values")}}</div>
+    <div class="ctn">
+      <p>
+        {{$t("about_us.company_values_section")}}
+      </p>
+      <ul class="items">
+        <li class="item">{{$t("about_us.company_values_1")}}</li>
+        <li class="item">{{$t("about_us.company_values_2")}}</li>
+        <li class="item">{{$t("about_us.company_values_3")}}</li>
+      </ul>
+      <ul class="items">
+        <li class="item">{{$t("about_us.company_values_4")}}</li>
+        <li class="item">{{$t("about_us.company_values_5")}}</li>
+        <li class="item">{{$t("about_us.company_values_6")}}</li>
+      </ul>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      msg: 'vue-amap向你问好！'
+    }
+  }
+}
+</script>
+
+<style>
+.about .banner {
+    height:300px;
+    overflow: hidden;
+    background:url(../../assets/aboutus.png) center #202133;
+}
+.about .title {
+  text-align:left;
+  font-size:24px;
+  width:1200px;
+  margin:0 auto;
+  margin-top:40px;
+  font-weight:bolder;
+}
+.about .ctn {
+  width: 1200px;
+  background: #fff;
+  padding-bottom: 20px;
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-top: 20px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+  padding:20px;
+}
+.about .ctn p {
+  padding:10px 10px;
+  text-align: left;
+  line-height:25px;
+}
+.about .ctn .items {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.about .ctn .items .item {
+  width: 300px;
+  line-height: 50px;
+  list-style-type: circle;
+  text-align: left;
+  border-bottom:1px solid #ccc;
+}
+
+@media screen and (max-width: 1200px) {
+    .about .title {
+        width:100%;
+        margin-left: 20px;
+    }
+    .about .ctn{
+        width: 100%;
+        padding: 0;
+    }
+}
+@media screen and (max-width: 960px) {
+    .about .banner{
+        display: none;
+    }
+}
+@media screen and (max-width: 760px) {
+    .about .title {
+        margin-left: 0;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .about .ctn{
+        width: 100%;
+        margin: 0;
+        padding: 10px 0;
+    }
+
+    .about .ctn .items{
+        flex-wrap: wrap;
+    }
+}
+</style>

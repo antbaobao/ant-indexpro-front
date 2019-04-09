@@ -1,0 +1,193 @@
+<template>
+    <div class="comprehensive-index">
+        <el-table
+            :data="tableData"
+            header-row-class-name="header"
+            style="width: 100%">
+            <el-table-column
+                prop="name"
+                :label="$t('home.name')"
+                width="180">
+            </el-table-column>
+            <el-table-column
+                prop="lastPrice"
+                :label="$t('home.last_price')"
+                width="180">
+                <template slot-scope="scope">
+                  ${{ scope.row.lastPrice }}
+                </template>
+            </el-table-column>
+            <el-table-column
+                prop="low"
+                :label="$t('home.lowest') + '(24H)'">
+                <template slot-scope="scope">
+                  ${{ scope.row.low }}
+                </template>
+            </el-table-column>
+
+            <el-table-column
+                prop="high"
+                :label="$t('home.highest') + '(24H)'">
+                <template slot-scope="scope">
+                  ${{ scope.row.high }}
+                </template>
+            </el-table-column>
+            <el-table-column
+                prop="change"
+                :label="$t('home.change') + '(24H)'"
+                >
+                <template slot-scope="scope">
+                  <span :class="scope.row.change >= 0 ? 'green' : 'red'">
+                    {{ scope.row.change >= 0 ? '+' + scope.row.change : scope.row.change }}
+                  </span>
+                  <span :class="scope.row.change >= 0 ? 'green' : 'red'">
+                    {{ scope.row.change >= 0 ? '+' + scope.row.changePercentage : '-' + scope.row.changePercentage }}%
+                  </span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                prop="priceGraph"
+                :label="$t('home.price_graph') + '(7d)'"
+                >
+                <template slot-scope="scope">
+                    <peity :type="'line'"
+                           :options="{ width: 150, height:50, stroke: '#4d89f9' }"
+                           :data="scope.row.priceGraph.toString()"></peity>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+</template>
+
+<script>
+import Peity from 'vue-peity'
+export default {
+  components: {
+    Peity
+  },
+  computed: {
+    lineData () {
+      return this.data.toString()
+    }
+  },
+  data () {
+    return {
+      tableData: [
+        {
+          name: 'BTC - Bitcoin',
+          lastPrice: 1232.11,
+          change: 122.11,
+          changePercentage: 12.11,
+          low: 111.11,
+          high: 130.11,
+          priceGraph: [121, 132, 142, 111, 102]
+        },
+        {
+          name: 'ETH - Ethereum',
+          lastPrice: 131.11,
+          change: -11.11,
+          changePercentage: 10.11,
+          low: 111,
+          high: 134.12,
+          priceGraph: [322, 121, 334, 23, 122, 221, 333]
+        },
+        {
+          name: 'BTC - Bitcoin',
+          lastPrice: 1232.11,
+          change: 122.11,
+          changePercentage: 12.11,
+          low: 111.11,
+          high: 130.11,
+          priceGraph: [121, 132, 142, 111, 102]
+        },
+        {
+          name: 'ETH - Ethereum',
+          lastPrice: 131.11,
+          change: -11.11,
+          changePercentage: 10.11,
+          low: 111,
+          high: 134.12,
+          priceGraph: [322, 121, 334, 23, 122, 221, 333]
+        },
+        {
+          name: 'BTC - Bitcoin',
+          lastPrice: 1232.11,
+          change: 122.11,
+          changePercentage: 12.11,
+          low: 111.11,
+          high: 130.11,
+          priceGraph: [121, 132, 142, 111, 102]
+        },
+        {
+          name: 'ETH - Ethereum',
+          lastPrice: 131.11,
+          change: -11.11,
+          changePercentage: 10.11,
+          low: 111,
+          high: 134.12,
+          priceGraph: [322, 121, 334, 23, 122, 221, 333]
+        },
+        {
+          name: 'BTC - Bitcoin',
+          lastPrice: 1232.11,
+          change: 122.11,
+          changePercentage: 12.11,
+          low: 111.11,
+          high: 130.11,
+          priceGraph: [121, 132, 142, 111, 102]
+        },
+        {
+          name: 'ETH - Ethereum',
+          lastPrice: 131.11,
+          change: -11.11,
+          changePercentage: 10.11,
+          low: 111,
+          high: 134.12,
+          priceGraph: [322, 121, 334, 23, 122, 221, 333]
+        },
+        {
+          name: 'BTC - Bitcoin',
+          lastPrice: 1232.11,
+          change: 122.11,
+          changePercentage: 12.11,
+          low: 111.11,
+          high: 130.11,
+          priceGraph: [121, 132, 142, 111, 102]
+        },
+        {
+          name: 'ETH - Ethereum',
+          lastPrice: 131.11,
+          change: -11.11,
+          changePercentage: 10.11,
+          low: 111,
+          high: 134.12,
+          priceGraph: [322, 121, 334, 23, 122, 221, 333]
+        }]
+    }
+  }
+}
+</script>
+<style>
+.comprehensive-index {
+  width: 1200px;
+  margin: 30px auto;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.comprehensive-index .header th {
+  background:rgba(0,0,0,0.1);
+  color:rgba(0,0,0,0.5)
+}
+.comprehensive-index td {
+  font-size:14px;
+}
+.comprehensive-index .red {
+  color:red;
+  padding-right:10px
+}
+.comprehensive-index .green {
+  color:green;
+  padding-right:10px
+}
+</style>

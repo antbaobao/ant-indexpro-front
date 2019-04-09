@@ -1,0 +1,77 @@
+<template>
+    <div class="widget-frame">
+        <el-card class="widget__first__right__box-card">
+            <div class="widget__first__right__box-card__info">
+                <div>
+                    <div class="widget__first__right__title">
+                        <span>GCI Index</span>
+                        <span>24h</span>
+                    </div>
+                    <div class="widget__first__right__value">$4352.18</div>
+                    <div class="widget__first__right__change">
+                        <!--<ShowChange-->
+                            <!--:value="formatNumberRgx(countPrice(countChange(scope.row.price,scope.row.before_price).changeValue.toString(),scope.row.pairs))"-->
+                            <!--:isRed="countChange(scope.row.price,scope.row.before_price).changeValue < 0 "-->
+                        <!--/>-->
+                        <!--<ShowChange-->
+                            <!--:value="formatNumberRgx(Number(countChange(scope.row.price,scope.row.before_price).changePercentage.toFixed(3)))+'%'"-->
+                            <!--:isRed="countChange(scope.row.price,scope.row.before_price).changeValue < 0 "-->
+                        <!--/>-->
+                        <ShowChange
+                            value="4,579.44"
+                            :isRed="false"
+                        />
+                        <ShowChange
+                            value="3.3%"
+                            :isRed="false"
+                        />
+                    </div>
+                </div>
+                <peity :type="'line'"
+                       :options="{ width: 150, height:50, stroke: '#4d89f9' }"
+                       :data="[1000,34,200,44,566,99,1000].toString()"></peity>
+            </div>
+        </el-card>
+    </div>
+</template>
+<script>
+import peity from 'vue-peity'
+import ShowChange from '@/components/ShowChange'
+export default {
+  components: {
+    peity,
+    ShowChange
+  }
+}
+
+</script>
+
+<style>
+    .widget-frame{
+        width: 298px;
+        margin: 100px;
+    }
+    .widget__first__right__box-card__info{
+        display: flex;
+        flex-direction: row;
+    }
+    .widget__first__right__title{
+        font-size: 14px;
+        text-align: left;
+        padding: 5px;
+        font-weight: 500;
+        color: #233143;
+    }
+    .widget__first__right__value{
+        font-size: 36px;
+        font-weight: 400;
+        vertical-align: top;
+    }
+    .widget__first__right__change{
+        display: inline-block;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: #eee;
+        padding: 5px;
+        border-radius: 5px;
+    }
+</style>
