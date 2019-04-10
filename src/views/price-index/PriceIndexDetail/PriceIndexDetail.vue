@@ -27,10 +27,12 @@
             :title="itemDetail.index_name"
             :change="Number(countPrice(countChange(itemDetail.price,itemDetail.before_price).changeValue.toString(),itemDetail.pairs))"
             :price="Number(countPrice(itemDetail.price,false))"
-            :percentage="Number(countPrice(countChange(itemDetail.price,itemDetail.before_price).changePercentage.toFixed(3)))"
+            :percentage="Number(countPrice(countChange(itemDetail.price,itemDetail.before_price).changePercentage.toFixed(2)))"
             :is-detail="true"
-        />
-        <PriceIndexExchangePrice/>
+        >
+            <PriceIndexExchangePrice/>
+        </Kline>
+
     </div>
 </template>
 

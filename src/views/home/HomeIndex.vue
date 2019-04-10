@@ -17,7 +17,7 @@
             >
                 <template slot-scope="scope">
                     <span  class="home-index__coin-name" @click="(e)=>onRowClick(scope.row)">
-                         {{ scope.row.index_name.toUpperCase() }}
+                          {{scope.row.full_name ?  firstUpperCase(scope.row.full_name)+ ' (' + scope.row.index_name.toUpperCase() +') ' : scope.row.index_name.toUpperCase()}}
                     </span>
                 </template>
             </el-table-column>
@@ -28,7 +28,7 @@
                 align="center"
             >
                 <template slot-scope="scope">
-                    ${{ formatNumberRgx(countPrice(scope.row.price,scope.row.pairs)) }}
+                    {{scope.row.pairs ? '$' : ''}}{{ formatNumberRgx(countPrice(scope.row.price,scope.row.pairs)) }}
                 </template>
             </el-table-column>
             <el-table-column
@@ -38,7 +38,7 @@
                 align="center"
             >
                 <template slot-scope="scope">
-                    ${{ formatNumberRgx(countPrice(scope.row.lowest,scope.row.pairs)) }}
+                    {{scope.row.pairs ? '$' : ''}}{{ formatNumberRgx(countPrice(scope.row.lowest,scope.row.pairs)) }}
                 </template>
             </el-table-column>
 
@@ -49,7 +49,7 @@
                 align="center"
             >
                 <template slot-scope="scope">
-                    ${{ formatNumberRgx(countPrice(scope.row.highest,scope.row.pairs)) }}
+                    {{scope.row.pairs ? '$' : ''}}{{ formatNumberRgx(countPrice(scope.row.highest,scope.row.pairs)) }}
                 </template>
             </el-table-column>
             <el-table-column
@@ -64,7 +64,7 @@
                         :isRed="countChange(scope.row.price,scope.row.before_price).changeValue < 0 "
                     />
                     <ShowChange
-                        :value="formatNumberRgx(Number(countChange(scope.row.price,scope.row.before_price).changePercentage.toFixed(3)))+'%'"
+                        :value="formatNumberRgx(Number(countChange(scope.row.price,scope.row.before_price).changePercentage.toFixed(2)))+'%'"
                         :isRed="countChange(scope.row.price,scope.row.before_price).changeValue < 0 "
                     />
                 </template>
@@ -78,7 +78,7 @@
                 <template slot-scope="scope">
                     <peity :type="'line'"
                            :options="{ width: 150, height:50, stroke: '#4d89f9' }"
-                           :data="scope.row.price_graph.toString()"></peity>
+                           :data="scope.row.circle.toString()"></peity>
                 </template>
             </el-table-column>
         </el-table>
@@ -90,6 +90,7 @@ import Peity from 'vue-peity'
 import { countChange, countPrice } from '@/libs/count'
 import { formatNumberRgx } from '@/libs/formatNumberRgx'
 import ShowChange from '@/components/ShowChange'
+import { firstUpperCase } from '@/libs/firstUpperCase'
 export default {
   components: {
     Peity,
@@ -107,6 +108,9 @@ export default {
     }
   },
   methods: {
+    firstUpperCase (str) {
+      return firstUpperCase(str)
+    },
     countChange (price, beforePrice) {
       return countChange(price, beforePrice)
     },
@@ -141,6 +145,7 @@ export default {
         width: 100%;
         display: inline-block;
         cursor: pointer;
+        font-weight: bold;
      }
     .home-index .header th {
         background: rgba(0, 0, 0, 0.1);

@@ -37,7 +37,7 @@
             </div>
             <div class="comprehensive-index-detail-info__introduction">
                 <!--<p class="comprehensive-index-detail-info__title">{{$t('comprehensive_index.detail.info.right.index_introduction')}}</p>-->
-                <p class="comprehensive-index-detail-info__introduction-des">{{data.leftItems.des}}</p>
+                <p class="comprehensive-index-detail-info__introduction-des" v-html="replaceString(data.leftItems.des)"></p>
             </div>
         </div>
         <div class="comprehensive-index-detail-info_right">
@@ -113,7 +113,7 @@ export default {
       const rightItems = data.composition.map((item) => {
         return {
           index_name: item.coin,
-          percentage: item.percentage.toFixed(3),
+          percentage: item.percentage.toFixed(2),
           last_price: countPrice(item.price.toString(), true),
           change: this.findOutChange(item.coin)
         }
@@ -133,6 +133,9 @@ export default {
     }
   },
   methods: {
+    replaceString (str) {
+      return str.replace(/\\n/, '<br/>')
+    },
     countChange (price, beforePrice) {
       return countChange(price, beforePrice)
     },
@@ -143,7 +146,7 @@ export default {
       const currentPriceIndex = this.$store.state.proindex.proindex.find((item) => {
         return item.index_name === priceIndexName
       })
-      return this.countChange(currentPriceIndex.price, currentPriceIndex.before_price).changePercentage.toFixed(3)
+      return this.countChange(currentPriceIndex.price, currentPriceIndex.before_price).changePercentage.toFixed(2)
     },
     formatNumberRgx (num) {
       return formatNumberRgx(num)

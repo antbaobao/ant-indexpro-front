@@ -5,7 +5,7 @@
         </p>
         <div class="widget-create__select">
             <div>
-                <span>
+                <span class="widget-create__select-label">
                     {{$t("widget.item3.index")}}
                 </span>
                 <el-select v-model="index">
@@ -33,7 +33,7 @@
         </div>
        <div class="widget-create__select">
            <div>
-               <span>
+               <span class="widget-create__select-label">
                {{$t("widget.item3.width")}}
                </span>
                <el-select v-model="width" placeholder="">
@@ -136,6 +136,13 @@ export default {
     padding: 10px;
     border-radius: 5px;
     text-align: left;
+}
+.el-select .el-input__inner {
+    width: 160px;
+}
+.widget-create__select-label{
+    width: 45px;
+    display: inline-block;
 }
 @media screen and (max-width: 1200px) {
     widget-create {

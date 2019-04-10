@@ -30,21 +30,12 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  data () {
-    return {
-      msg: 'vue-amap向你问好！'
-    }
-  }
-}
-</script>
-
 <style>
 .about .banner {
     height:300px;
     overflow: hidden;
-    background:url(../../assets/aboutus.png) center #202133;
+    background:url(../../assets/aboutus.jpg) center #202133;
+    background-size: cover;
 }
 .about .title {
   text-align:left;

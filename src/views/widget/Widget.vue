@@ -220,7 +220,7 @@ export default {
         border-radius: 5px;
         box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
     }
-    @media screen and (max-width: 760px) {
+    @media screen and (max-width: 960px) {
         .widget{
             margin-top: 10px;
         }

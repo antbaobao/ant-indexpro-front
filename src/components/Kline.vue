@@ -18,9 +18,10 @@
                     />
                 </div>
             </div>
-            <div class="kline-ci-container__chart">
+            <div class="kline-ci-container__chart" v-if="!getCircleDataLoading">
                 <v-chart :options="polar"/>
             </div>
+            <slot></slot>
         </div>
     </div>
 </template>
@@ -33,7 +34,9 @@ import 'echarts/lib/component/polar'
 import echarts from 'echarts/lib/echarts'
 import { formatNumberRgx } from '@/libs/formatNumberRgx'
 import ShowChange from '@/components/ShowChange'
-
+import { mapActions } from 'vuex'
+import handleRes from '@/libs/handle-res'
+import moment from 'moment'
 export default {
   name: 'comprehensive_index',
   props: {
@@ -58,80 +61,10 @@ export default {
       default: false
     }
   },
-  components: {
-    'v-chart': ECharts,
-    ShowChange
-  },
-  methods: {
-    goToDetail () {
-      if (!this.isDetail) {
-        this.$emit('go-detail')
-      }
-    },
-    formatNumberRgx (num) {
-      return formatNumberRgx(num)
-    }
-  },
   data () {
-    let data = [
-      ['2000-06-05', 116],
-      ['2000-06-06', 129],
-      ['2000-06-07', 135],
-      ['2000-06-08', 86],
-      ['2000-06-09', 73],
-      ['2000-06-10', 85],
-      ['2000-06-11', 73],
-      ['2000-06-12', 68],
-      ['2000-06-13', 92],
-      ['2000-06-14', 130],
-      ['2000-06-15', 245],
-      ['2000-06-16', 139],
-      ['2000-06-17', 115],
-      ['2000-06-18', 111],
-      ['2000-06-19', 309],
-      ['2000-06-20', 206],
-      ['2000-06-21', 137],
-      ['2000-06-22', 128],
-      ['2000-06-23', 85],
-      ['2000-06-24', 94],
-      ['2000-06-25', 71],
-      ['2000-06-26', 106],
-      ['2000-06-27', 84],
-      ['2000-06-28', 93],
-      ['2000-06-29', 85],
-      ['2000-06-30', 73],
-      ['2000-07-01', 83],
-      ['2000-07-02', 125],
-      ['2000-07-03', 107],
-      ['2000-07-04', 82],
-      ['2000-07-05', 44],
-      ['2000-07-06', 72],
-      ['2000-07-07', 106],
-      ['2000-07-08', 107],
-      ['2000-07-09', 66],
-      ['2000-07-10', 91],
-      ['2000-07-11', 92],
-      ['2000-07-12', 113],
-      ['2000-07-13', 107],
-      ['2000-07-14', 131],
-      ['2000-07-15', 111],
-      ['2000-07-16', 64],
-      ['2000-07-17', 69],
-      ['2000-07-18', 88],
-      ['2000-07-19', 77],
-      ['2000-07-20', 83],
-      ['2000-07-21', 111],
-      ['2000-07-22', 57],
-      ['2000-07-23', 55],
-      ['2000-07-24', 60]
-    ]
-    let dateList = data.map(function (item) {
-      return item[0]
-    })
-    let valueList = data.map(function (item) {
-      return item[1]
-    })
     return {
+      loading: false,
+      getCircleDataLoading: false,
       polar: {
         // Make gradient line here
         visualMap: [
@@ -158,7 +91,7 @@ export default {
         },
         xAxis: [
           {
-            data: dateList
+            data: []
           }
         ],
         yAxis: [
@@ -176,7 +109,7 @@ export default {
             start: 0,
             end: 10,
             handleIcon:
-                'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+              'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
             handleSize: '80%',
             handleStyle: {
               color: '#fff',
@@ -191,7 +124,7 @@ export default {
           {
             type: 'line',
             showSymbol: true,
-            data: valueList,
+            data: [],
             sampling: 'average',
             smooth: true,
             itemStyle: {
@@ -213,6 +146,58 @@ export default {
         ]
       }
     }
+  },
+
+  components: {
+    'v-chart': ECharts,
+    ShowChange
+  },
+  methods: {
+    ...mapActions([
+      'getCircleData'
+    ]),
+    goToDetail () {
+      if (!this.isDetail) {
+        this.$emit('go-detail')
+      }
+    },
+    load () {
+      const loading = this.$loading({
+        lock: false,
+        text: '',
+        spinner: 'el-icon-loading',
+        background: 'transparent'
+      })
+      this.loading = loading
+    },
+    formatNumberRgx (num) {
+      return formatNumberRgx(num)
+    },
+    async _getCircleData () {
+      try {
+        this.load()
+        this.getCircleDataLoading = true
+        const res = await this.getCircleData({ indexName: this.title, circle: 'day' })
+        handleRes(this.$message, res, () => {
+          this.polar.xAxis[0].data = res.data.map(function (item) {
+            return moment(item.timestamp).format('MMMM Do YYYY, h')
+          })
+          this.polar.series[0].data = res.data.map(function (item) {
+            return item.price.toFixed(2)
+          })
+        })
+        this.getCircleDataLoading = false
+        this.loading.close()
+      } catch (e) {
+        console.log(e)
+        this.loading.close()
+        this.getCircleDataLoading = false
+        return this.$message.error('Something wrong')
+      }
+    }
+  },
+  mounted () {
+    this._getCircleData()
   }
 }
 </script>
@@ -233,7 +218,7 @@ export default {
         position: relative;
         width: 1200px;
         background: #fff;
-        height: 420px;
+        min-height: 420px;
         padding-bottom: 20px;
         border-radius: 5px;
         margin: 0 auto;

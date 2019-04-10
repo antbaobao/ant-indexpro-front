@@ -7,7 +7,7 @@
                 :key="index"
             >
                 <span class="price-index-exchange_name">
-                    {{item.exchange}}
+                    {{firstUpperCase(item.exchange)}}
                 </span>
                 <span class="price-index-exchange_price">
                     {{countPrice(item.price.toString(),true)}}
@@ -26,6 +26,9 @@
                     label="Exchange"
                     align="center"
                 >
+                    <template slot-scope="scope">
+                        {{firstUpperCase(scope.row.exchange)}}
+                    </template>
                 </el-table-column>
                 <el-table-column
                     prop="price"
@@ -43,7 +46,9 @@
             <h2>
                 {{priceIndexItem.index_name.toUpperCase()}} Index
             </h2>
-            {{priceIndexItem.des}}
+            <span v-html="replaceString(priceIndexItem.des)">
+˚            </span>
+
         </div>
     </div>
 
@@ -51,6 +56,7 @@
 
 <script>
 import { countPrice } from '@/libs/count'
+import { firstUpperCase } from '@/libs/firstUpperCase'
 export default {
   computed: {
     priceIndexItem () {
@@ -63,6 +69,12 @@ export default {
   methods: {
     countPrice (price, isPriceIndex) {
       return countPrice(price, isPriceIndex)
+    },
+    replaceString (str) {
+      return str.replace(/\\n/, '<br/>')
+    },
+    firstUpperCase (num) {
+      return firstUpperCase(num)
     }
   }
 }
@@ -104,15 +116,11 @@ export default {
         width: 1200px;
         margin: 0 auto;
         box-sizing: border-box;
-        background-color: white;
-        box-shadow: 0px 2px 5px #eee;
     }
     .price-index-exchange{
         width: 1200px;
         margin: 0 auto;
         box-sizing: border-box;
-        background-color: white;
-        box-shadow: 0px 2px 5px #eee;
     }
     .price-index-exchange__table{
         display: none;

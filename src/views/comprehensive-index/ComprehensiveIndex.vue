@@ -8,7 +8,7 @@
                 :title="item.index_name"
                 :change="Number(countPrice(countChange(item.price,item.before_price).changeValue.toString(),item.pairs))"
                 :price="Number(countPrice(item.price,false))"
-                :percentage="Number(countPrice(countChange(item.price,item.before_price).changePercentage.toFixed(3)))"
+                :percentage="Number(countPrice(countChange(item.price,item.before_price).changePercentage.toFixed(2)))"
                 @go-detail="goDetail(item.id,item.index_name)"
             />
         </div>

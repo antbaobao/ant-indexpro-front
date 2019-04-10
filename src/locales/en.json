@@ -1,4 +1,9 @@
 {
+    "common_error":{
+        "error1": "Something wrong",
+        "error2": "",
+        "error3": ""
+    },
     "home.name": "Name",
     "home.last_price": "Last Price",
     "home.change": "Change",
@@ -10,7 +15,7 @@
     "home.price_index": "Price Index",
     "home.widget": "Widget",
     "home.about_us": "About Us",
-    "home.risk_reminder": "Risk reminder: all information and services provided by this website are for your reference only. You should ask for professional advice and then make a prudent trading or investment decision.lnvestment transactions carry significant risks. the website does not accept any responsibility for the consequences of your actions as a result of reading the information on the website. ",
+    "home.risk_reminder": "Risk reminder: All information and services provided by this website are for your reference only. You should ask for professional advice and then make a prudent trading or investment decision. lnvestment transactions carry significant risks. The website does not accept any responsibility for the consequences of your actions as a result of reading the information on the website. ",
     "home.contact_us": "Contact us",
     "home.email": "Email",
     "home.working_hour": "Operating time",
@@ -30,7 +35,6 @@
     "comprehensive_index.detail.info.right.number_of_coins": "Number of Coins",
     "comprehensive_index.detail.info.right.index_introduction": "Index Introduction",
     "comprehensive_index.detail.info.right.download_the_index": "Download the index organizational structure scenarios",
-
     "comprehensive_index.detail.info.left.title": "Component currency index sample",
     "comprehensive_index.detail.info.left.index_name": "Index Name",
     "comprehensive_index.detail.info.left.percentage": "Percentage",

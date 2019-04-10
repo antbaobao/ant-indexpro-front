@@ -8,7 +8,6 @@
             element-loading-text=""
             element-loading-spinner="el-icon-loading"
             element-loading-background="rgba(255, 255, 255, 0.8)"
-            @row-click="onRowClick"
             empty-text="No Data"
         >
             <el-table-column
@@ -17,8 +16,8 @@
                 fixed
             >
                 <template slot-scope="scope">
-                     <span  class="home-index__coin-name" @click="(e)=>onRowClick(scope.row)">
-                         {{ scope.row.index_name.toUpperCase() }}
+                     <span class="home-index__coin-name" @click="(e)=>onRowClick(scope.row)">
+                         {{ scope.row.index_name.toUpperCase() }} - {{firstUpperCase(scope.row.full_name)}}
                     </span>
                 </template>
             </el-table-column>
@@ -61,7 +60,7 @@
                         :isRed="countChange(scope.row.price,scope.row.before_price).changeValue < 0 "
                     />
                     <ShowChange
-                        :value="formatNumberRgx(Number(countChange(scope.row.price,scope.row.before_price).changePercentage.toFixed(3)))+'%'"
+                        :value="formatNumberRgx(Number(countChange(scope.row.price,scope.row.before_price).changePercentage.toFixed(2)))+'%'"
                         :isRed="countChange(scope.row.price,scope.row.before_price).changeValue < 0 "
                     />
                 </template>
@@ -74,7 +73,7 @@
                 <template slot-scope="scope">
                     <peity :type="'line'"
                            :options="{ width: 150, height:50, stroke: '#4d89f9' }"
-                           :data="scope.row.price_graph.toString()"></peity>
+                           :data="scope.row.circle.toString()"></peity>
                 </template>
             </el-table-column>
         </el-table>
@@ -86,6 +85,7 @@ import Peity from 'vue-peity'
 import { formatNumberRgx } from '@/libs/formatNumberRgx'
 import ShowChange from '@/components/ShowChange'
 import { countChange, countPrice } from '@/libs/count'
+import { firstUpperCase } from '@/libs/firstUpperCase'
 export default {
   components: {
     Peity,
@@ -117,6 +117,9 @@ export default {
     },
     countPrice (price, isPriceIndex) {
       return countPrice(price, isPriceIndex)
+    },
+    firstUpperCase (str) {
+      return firstUpperCase(str)
     }
   }
 }
@@ -138,16 +141,20 @@ export default {
     .priceindex-table td {
         font-size: 14px;
     }
-    .el-table .cell .home-index__coin-name:hover{
+
+    .el-table .cell .home-index__coin-name:hover {
         color: #409EFF;
     }
-    .el-table .cell .home-index__coin-name{
+
+    .el-table .cell .home-index__coin-name {
         width: 100%;
         display: inline-block;
         cursor: pointer;
+        font-weight: bold;
     }
+
     @media screen and (max-width: 1200px) {
-        .priceindex-table{
+        .priceindex-table {
             width: 100%;
             border-radius: 0;
         }

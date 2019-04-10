@@ -5,9 +5,9 @@
  */
 const handleRes = (message, res, cb = () => {}) => {
   if (res.code === 1002) {
-    message.error(res.msg)
+    message.error('Request error')
   } else if (res.code === 1005) {
-    message.error(res.msg)
+    message.error('Parameter error')
   } else {
     cb()
   }

@@ -5,15 +5,15 @@
         <div class="comprehensive_index_detail_title">{{itemDetail.index_name}} Index</div>
         <div class="info">
             <div class="item">
-                <div class="value">${{formatNumberRgx(countPrice(itemDetail.price,false))}}</div>
+                <div class="value">{{formatNumberRgx(countPrice(itemDetail.price,false))}}</div>
                 <div class="name">{{$t("comprehensive_index.last_price")}}</div>
             </div>
             <div class="item">
-                <div class="value">${{formatNumberRgx(countPrice(itemDetail.highest,false))}}</div>
+                <div class="value">{{formatNumberRgx(countPrice(itemDetail.highest,false))}}</div>
                 <div class="name">{{$t("comprehensive_index.highest")}}</div>
             </div>
             <div class="item">
-                <div class="value">${{formatNumberRgx(countPrice(itemDetail.lowest,false))}}</div>
+                <div class="value">{{formatNumberRgx(countPrice(itemDetail.lowest,false))}}</div>
                 <div class="name">{{$t("comprehensive_index.lowest")}}</div>
             </div>
         </div>
@@ -22,7 +22,7 @@
         :title="itemDetail.index_name"
         :change="Number(countPrice(countChange(itemDetail.price,itemDetail.before_price).changeValue.toString(),itemDetail.pairs))"
         :price="Number(countPrice(itemDetail.price,false))"
-        :percentage="Number(countPrice(countChange(itemDetail.price,itemDetail.before_price).changePercentage.toFixed(3)))"
+        :percentage="Number(countPrice(countChange(itemDetail.price,itemDetail.before_price).changePercentage.toFixed(2)))"
         :is-detail="true"
     />
     <div class="comprehensive_index_detail__info">

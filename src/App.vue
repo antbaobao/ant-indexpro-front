@@ -26,7 +26,7 @@ export default {
         handleRes(this.$message, res)
       } catch (e) {
         console.log(e)
-        return this.$message.error('出错了')
+        return this.$message.error('Something wrong')
       }
     },
     initWebSocket () {

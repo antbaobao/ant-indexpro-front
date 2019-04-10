@@ -19,7 +19,7 @@ export default {
 .banner {
     height:299px;
     overflow: hidden;
-    background:url(../../assets/banner.png) center #202133;
+    background:url(../../assets/banner.jpg) center #202133;
     background-size: cover;
 }
 @media screen and (max-width: 960px) {
